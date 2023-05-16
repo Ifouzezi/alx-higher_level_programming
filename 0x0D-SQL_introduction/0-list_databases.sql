@@ -1,2 +1,3 @@
 -- Lists all current databases of my MySQL server
-SHOW DATABASES;
+SELECT SCHEMA_NAME AS Database_Name FROM INFORMATION_SCHEMA.SCHEMATA;
+
