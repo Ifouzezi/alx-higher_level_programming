@@ -2,7 +2,7 @@
 -- shows linked to each.
 -- Does not display genres without linked shows.
 -- Records are ordered by descending number of shows linked.
-SELECT g.`name` AS `genre`,
+SELECT g. name AS genre,
        COUNT(*) AS `number_of_shows`
   FROM `tv_genres` AS g
        INNER JOIN `tv_show_genres` AS t
