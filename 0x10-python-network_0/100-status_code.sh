@@ -1,3 +1,3 @@
 #!/bin/bash
-# Sends a GET request to a given URL and display the response status code.
-curl -s -o /dev/null -w "%{http_code}" "$1"
+# Sends request to URL arg and displays status code of response
+curl "$1" -w '%{http_code}' -so /dev/null
