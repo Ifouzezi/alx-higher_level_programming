@@ -1,21 +1,18 @@
 #!/usr/bin/python3
-"""Sends a request to a given URL and displays the response body.
-
-Usage: ./3-error_code.py <URL>
-  - Handles HTTP errors.
+""" Fetches website info, handles urllib.error.HTTPError exceptions
 """
-import sys
-import urllib.error
-import urllib.request
-
-
 if __name__ == "__main__":
-    url = sys.argv[1]
+    from urllib import request, error
+    from sys import argv
 
-    request = urllib.request.Request(url)
     try:
-        with urllib.request.urlopen(request) as response:
-            print(response.read().decode("ascii"))
-    except urllib.error.HTTPError as e:
-        print("Error code: {}".format(e.code))
-        
+        with request.urlopen(argv[1]) as response:
+            print(response.read().decode("utf-8"))
+    except error.HTTPError as e:
+        if e.reason == "UNAUTHORIZED":
+            print("Error code: 401")
+        elif e.reason == "NOT FOUND":
+            print("Error code: 404")
+        elif e.reason == "INTERNAL SERVER ERROR":
+            print("Error code: 500")
+            
