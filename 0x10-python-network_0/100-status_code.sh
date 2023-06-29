@@ -1,3 +1,3 @@
 #!/bin/bash
-### Requests URL to respond with just the response code
-curl -s -o /dev/null -I -w "%{http_code}" "$@"
+# Sends a GET request to a given URL and display the response status code.
+curl -s -o /dev/null -w "%{http_code}" "$1"
