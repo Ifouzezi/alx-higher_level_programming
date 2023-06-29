@@ -14,5 +14,4 @@ if __name__ == "__main__":
         elif e.reason == "NOT FOUND":
             print("Error code: 404")
         elif e.reason == "INTERNAL SERVER ERROR":
-            print("Error code: 500")
-            
+            print("Error code:', err.code")
