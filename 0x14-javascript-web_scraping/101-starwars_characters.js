@@ -1,33 +1,52 @@
 #!/usr/bin/node
+
 const request = require('request');
-const movieID = process.argv[2];
-const URL = 'http://swapi.co/api/films/' + movieID;
+const argv = process.argv;
+const url = 'http://swapi.co/api/films/' + argv[2];
 
-// Makes API request, sets async to allow await promise
-request(URL, async function (error, response, body) {
-  if (error) {
-    console.log(error);
-  } else {
-    // Takes results and deserializes from JSON to JS object
-    // console.log(Object.prototype.toString.call(characterURLs)) to confirm object type
-
-    const characterURLs = JSON.parse(body).characters;
-
-    // Use a list of links to character pages to make new requests
-    // await queues requests until they resolve in order
-    for (const characterURL of characterURLs) {
-      await new Promise(function (resolve, reject) {
-        request(characterURL, function (error, response, body) {
-          if (error) {
-            console.log(error);
-          } else {
-            // Extract character names
-            const characterName = JSON.parse(body).name;
-            console.log(characterName);
-            resolve();
-          }
-        });
-      });
+function getcharacter (theUrl) {
+  const options = {
+    url: theUrl,
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Accept-Charset': 'utf-8'
     }
-  }
-});
+  };
+  request(options, function (err, res, body) {
+    if (err) {
+      console.log(err);
+    } else {
+      const json = JSON.parse(body);
+      // const status = res.statusCode;
+      // console.log(json);
+      console.log(json.name);
+    }
+  });
+}
+
+function getJson (theUrl) {
+  const options = {
+    url: theUrl,
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Accept-Charset': 'utf-8'
+    }
+  };
+  request(options, function (err, res, body) {
+    if (err) {
+      console.log(err);
+    } else {
+      const json = JSON.parse(body);
+      // const status = res.statusCode;
+      // console.log(json);
+      const characters = json.characters;
+      for (const i in characters) {
+        getcharacter(characters[i]);
+      }
+      return json;
+    }
+  });
+}
+getJson(url);
