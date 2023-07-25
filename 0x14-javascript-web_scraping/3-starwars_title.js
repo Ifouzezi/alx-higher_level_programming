@@ -2,9 +2,9 @@
 
 const request = require('request');
 const argv = process.argv;
-const url = 'http://swapi.co/api/films/';
+const url = 'https://swapi-api.alx-tools.com/api/films/';
 
-function getStatusJson (theUrl) {
+function getStatusJson(theUrl, callback) {
   const options = {
     url: theUrl,
     method: 'GET',
@@ -19,10 +19,12 @@ function getStatusJson (theUrl) {
     } else {
       const json = JSON.parse(body);
       const status = res.statusCode;
-      console.log(json.title);
-      return (status, json);
+      callback(status, json.title);
     }
   });
 }
 
-getStatusJson(url + argv[2]);
+const movieId = argv[2];
+getStatusJson(url + movieId, (status, title) => {
+  console.log(title);
+});
